@@ -18,7 +18,16 @@ jobs:
         printf "%s\n" "${{ secrets.EC2_SSH_KEY }}" > ~/.ssh/id_ed25519
         chmod 600 ~/.ssh/id_ed25519
         ssh-keyscan -H 13.233.146.54 >> ~/.ssh/known_hosts
+        
+    - name: Upload files to temp dir
+      run: |
+        scp -i ~/.ssh/id_ed25519 -r * ubuntu@13.233.146.54:/home/ubuntu/html_upload  
 
+    - name: Move files to /var/www/html with sudo
+      run: |
+        ssh -i ~/.ssh/id_ed25519 ubuntu@13.233.146.54 'sudo mv /home/ubuntu/html_upload/* /var/www/html/'    
+
+        
     - name: Test SSH connection
       run: ssh -o StrictHostKeyChecking=no ubuntu@13.233.146.54 "echo ✅ Connected from GitHub Actions!"
 
