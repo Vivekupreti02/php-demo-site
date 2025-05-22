@@ -31,5 +31,5 @@ jobs:
         
     - name: Move files to /var/www/html with sudo
       run: |
-        ssh -i ~/.ssh/id_ed25519 ubuntu@13.233.146.54 'sudo mv /home/ubuntu/html_upload/* /var/www/html/'    
+        ssh -i ~/.ssh/id_ed25519 ubuntu@13.233.146.54 'sudo rsync -av --delete /home/ubuntu/html_upload/* /var/www/html/'    
     
